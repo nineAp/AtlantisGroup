@@ -1,0 +1,16 @@
+<!-- res/drawable/button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Yellow Border -->
+    <stroke
+        android:color="@color/main_yellow"
+        android:width="2dp" />
+
+    <!-- Button Content -->
+    <solid android:color="#FFFFFF" />
+
+    <!-- Corners -->
+    <corners android:radius="4dp" />
+
+</shape>
