@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Верхний текст "Уведомления" -->
+    <TextView
+        android:id="@+id/textViewNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:padding="16dp"
+        android:text="Уведомления"
+        android:textColor="@color/main_blue"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Список уведомлений -->
+    <ListView
+        android:id="@+id/listViewNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/buttonSaveSettings"
+        android:layout_below="@id/textViewNotifications" />
+
+    <!-- Кнопка "Сохранить настройки" -->
+    <Button
+        android:id="@+id/buttonSaveSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/button_background"
+        android:padding="8dp"
+        android:text="Сохранить настройки" />
+</RelativeLayout>

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.atlantisgroup.adapters.Product;
 import com.example.atlantisgroup.adapters.ProductAdapter;
@@ -29,44 +30,64 @@ import java.util.List;
 
 public class CatalogFragment extends Fragment {
 
-
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Создание представления фрагмента из макета
         View view = inflater.inflate(R.layout.fragment_catalog, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.catalog_rv);
-        Button category_btn = view.findViewById(R.id.category_button);
-        Button catalog_btn = view.findViewById(R.id.catalog_button);
 
-        catalog_btn.setOnClickListener(new View.OnClickListener() {
+        // Получение ссылок на элементы из макета
+        RecyclerView recyclerView = view.findViewById(R.id.catalog_rv);
+        Button categoryBtn = view.findViewById(R.id.category_button);
+        Button catalogBtn = view.findViewById(R.id.catalog_button);
+        ImageView cartBtn = view.findViewById(R.id.cart);
+
+        // Обработчик нажатия на кнопку корзины
+        cartBtn.setOnClickListener(v -> {
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.primary_frame, new CartFragment()).commit();
+        });
+
+        // Обработчик нажатия на кнопку "Каталог"
+        catalogBtn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
-                category_btn.setBackground(getResources().getDrawable(R.drawable.button_background_blue));
-                catalog_btn.setBackground(getResources().getDrawable(R.drawable.button_background));
+                // Изменение внешнего вида кнопок при выборе "Каталога"
+                categoryBtn.setBackground(getResources().getDrawable(R.drawable.button_background_blue));
+                catalogBtn.setBackground(getResources().getDrawable(R.drawable.button_background));
+                // Создание адаптера для списка продуктов (или категорий)
                 ProductAdapter adapter = createMockAdapter(true);
                 recyclerView.setAdapter(adapter);
             }
         });
 
-        category_btn.setOnClickListener(new View.OnClickListener() {
+        // Обработчик нажатия на кнопку "Категории"
+        categoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                catalog_btn.setBackground(getResources().getDrawable(R.drawable.button_background_blue));
-                category_btn.setBackground(getResources().getDrawable(R.drawable.button_background));
+                // Изменение внешнего вида кнопок при выборе "Категорий"
+                catalogBtn.setBackground(getResources().getDrawable(R.drawable.button_background_blue));
+                categoryBtn.setBackground(getResources().getDrawable(R.drawable.button_background));
+                // Создание адаптера для списка категорий
                 ProductAdapter adapter = createMockAdapter(false);
                 recyclerView.setAdapter(adapter);
             }
         });
 
+        // Настройка менеджера компоновки для RecyclerView (2 столбца в виде сетки)
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+
+        // Создание и установка адаптера для RecyclerView
         ProductAdapter adapter = createMockAdapter(true);
         recyclerView.setAdapter(adapter);
 
+        // Возвращение созданного представления для отображения фрагмента
         return view;
     }
 
+    // Метод для создания адаптера с мок-данными в зависимости от выбранной категории
     private ProductAdapter createMockAdapter(boolean isCategory) {
         List<Product> productList;
         if(isCategory) {
@@ -74,20 +95,25 @@ public class CatalogFragment extends Fragment {
         } else {
             productList = getMockCategories();
         }
+
+        // Создание адаптера и установка слушателя кликов
         ProductAdapter adapter = new ProductAdapter(getContext(), productList);
         adapter.setOnItemClickListener(new ProductViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                // Обработка клика на элементе списка
                 Product clickedProduct = productList.get(position);
                 boolean isCategory = clickedProduct.getIsCategory();
                 FragmentManager manager = requireActivity().getSupportFragmentManager();
                 if(isCategory) {
+                    // Переход к фрагменту с выбранной категорией
                     SelectedCategoryFragment fragment = new SelectedCategoryFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("product", clickedProduct);
                     fragment.setArguments(bundle);
                     manager.beginTransaction().replace(R.id.primary_frame, fragment).commit();
                 } else {
+                    // Переход к фрагменту с выбранным продуктом
                     ProductFragment productFragment = new ProductFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("product", clickedProduct);
@@ -98,6 +124,4 @@ public class CatalogFragment extends Fragment {
         });
         return adapter;
     }
-
-
 }

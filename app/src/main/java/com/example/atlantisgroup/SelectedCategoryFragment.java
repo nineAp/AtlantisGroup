@@ -25,23 +25,33 @@ public class SelectedCategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Надуваем макет фрагмента
         View view = inflater.inflate(R.layout.fragment_selected_category, container, false);
+
+        // Получаем ссылки на элементы макета
         RecyclerView rv = view.findViewById(R.id.selected_category_rv);
         TextView categoryTitle = view.findViewById(R.id.selected_category_title);
 
+        // Получаем данные из аргументов фрагмента
         Bundle bundle = getArguments();
         if (bundle != null) {
+            // Получаем выбранную категорию из аргументов и устанавливаем ее название
             Product product = (Product) bundle.getSerializable("product");
             categoryTitle.setText(product.getProductName());
         }
 
+        // Получаем макет данных для RecyclerView
         List<Product> productList = getMockProducts();
+
+        // Создаем и настраиваем адаптер для RecyclerView
         ProductAdapter adapter = new ProductAdapter(getContext(), productList);
         adapter.setOnItemClickListener(new ProductViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                // Обработка клика на элементе списка продуктов
                 Product selectedProduct = productList.get(position);
                 if (selectedProduct != null) {
+                    // Заменяем текущий фрагмент на фрагмент выбранного продукта
                     FragmentManager manager = requireActivity().getSupportFragmentManager();
                     ProductFragment fragment = new ProductFragment();
                     Bundle productBundle = new Bundle();
@@ -51,10 +61,12 @@ public class SelectedCategoryFragment extends Fragment {
                 }
             }
         });
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
 
+        // Настраиваем RecyclerView с использованием сетки
+        rv.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
         rv.setAdapter(adapter);
 
+        // Возвращаем созданный вид
         return view;
     }
 }

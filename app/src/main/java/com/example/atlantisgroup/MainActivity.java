@@ -8,13 +8,24 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Получение менеджера фрагментов
     FragmentManager fragmentManager = getSupportFragmentManager();
+
+    // Создание экземпляра фрагмента для ввода номера телефона
     Fragment numberFragment = new LoginFragmentNumber();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Вызов метода onCreate базового класса Activity
         super.onCreate(savedInstanceState);
+
+        // Установка макета для активности
         setContentView(R.layout.activity_main);
-        fragmentManager.beginTransaction().replace(R.id.login_framelayout, numberFragment).addToBackStack(null).commit();
+
+        // Начало транзакции фрагмента для замены содержимого контейнера (FrameLayout)
+        fragmentManager.beginTransaction()
+                .replace(R.id.login_framelayout, numberFragment)  // Замена фрагмента
+                .addToBackStack(null)  // Добавление в стек для возможности возврата
+                .commit();  // Применение транзакции
     }
 }
