@@ -48,6 +48,38 @@ public class CatalogFragment extends Fragment {
             FragmentManager manager = requireActivity().getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.primary_frame, new CartFragment()).commit();
         });
+        getMockProducts(getContext(), new MockData.ProductsCallback() {
+            @Override
+            public void onProductsReceived(List<Product> productList) {
+                ProductAdapter adapter = new ProductAdapter(getContext(), productList);
+                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+                recyclerView.setAdapter(adapter);
+                adapter.setOnItemClickListener(new ProductViewHolder.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        // Обработка клика на элементе списка
+                        Product clickedProduct = productList.get(position);
+                        boolean isCategory = clickedProduct.getIsCategory();
+                        FragmentManager manager = requireActivity().getSupportFragmentManager();
+                        if(isCategory) {
+                            // Переход к фрагменту с выбранной категорией
+                            SelectedCategoryFragment fragment = new SelectedCategoryFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("product", clickedProduct);
+                            fragment.setArguments(bundle);
+                            manager.beginTransaction().replace(R.id.primary_frame, fragment).commit();
+                        } else {
+                            // Переход к фрагменту с выбранным продуктом
+                            ProductFragment productFragment = new ProductFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("product", clickedProduct);
+                            productFragment.setArguments(bundle);
+                            manager.beginTransaction().replace(R.id.primary_frame, productFragment).commit();
+                        }
+                    }
+                });
+            }
+        });
 
         // Обработчик нажатия на кнопку "Каталог"
         catalogBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +90,38 @@ public class CatalogFragment extends Fragment {
                 categoryBtn.setBackground(getResources().getDrawable(R.drawable.button_background_blue));
                 catalogBtn.setBackground(getResources().getDrawable(R.drawable.button_background));
                 // Создание адаптера для списка продуктов (или категорий)
-                ProductAdapter adapter = createMockAdapter(true);
-                recyclerView.setAdapter(adapter);
+                getMockProducts(getContext(), new MockData.ProductsCallback() {
+                    @Override
+                    public void onProductsReceived(List<Product> productList) {
+                        ProductAdapter adapter = new ProductAdapter(getContext(), productList);
+                        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(adapter);
+                        adapter.setOnItemClickListener(new ProductViewHolder.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                // Обработка клика на элементе списка
+                                Product clickedProduct = productList.get(position);
+                                boolean isCategory = clickedProduct.getIsCategory();
+                                FragmentManager manager = requireActivity().getSupportFragmentManager();
+                                if(isCategory) {
+                                    // Переход к фрагменту с выбранной категорией
+                                    SelectedCategoryFragment fragment = new SelectedCategoryFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("product", clickedProduct);
+                                    fragment.setArguments(bundle);
+                                    manager.beginTransaction().replace(R.id.primary_frame, fragment).commit();
+                                } else {
+                                    // Переход к фрагменту с выбранным продуктом
+                                    ProductFragment productFragment = new ProductFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("product", clickedProduct);
+                                    productFragment.setArguments(bundle);
+                                    manager.beginTransaction().replace(R.id.primary_frame, productFragment).commit();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
 
@@ -71,57 +133,45 @@ public class CatalogFragment extends Fragment {
                 catalogBtn.setBackground(getResources().getDrawable(R.drawable.button_background_blue));
                 categoryBtn.setBackground(getResources().getDrawable(R.drawable.button_background));
                 // Создание адаптера для списка категорий
-                ProductAdapter adapter = createMockAdapter(false);
-                recyclerView.setAdapter(adapter);
+                getMockCategories(getContext(), new MockData.ProductsCallback() {
+                    @Override
+                    public void onProductsReceived(List<Product> productList) {
+                        ProductAdapter adapter = new ProductAdapter(getContext(), productList);
+                        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(adapter);
+                        adapter.setOnItemClickListener(new ProductViewHolder.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                // Обработка клика на элементе списка
+                                Product clickedProduct = productList.get(position);
+                                boolean isCategory = clickedProduct.getIsCategory();
+                                FragmentManager manager = requireActivity().getSupportFragmentManager();
+                                if(isCategory) {
+                                    // Переход к фрагменту с выбранной категорией
+                                    SelectedCategoryFragment fragment = new SelectedCategoryFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("product", clickedProduct);
+                                    fragment.setArguments(bundle);
+                                    manager.beginTransaction().replace(R.id.primary_frame, fragment).commit();
+                                } else {
+                                    // Переход к фрагменту с выбранным продуктом
+                                    ProductFragment productFragment = new ProductFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("product", clickedProduct);
+                                    productFragment.setArguments(bundle);
+                                    manager.beginTransaction().replace(R.id.primary_frame, productFragment).commit();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
 
         // Настройка менеджера компоновки для RecyclerView (2 столбца в виде сетки)
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
 
-        // Создание и установка адаптера для RecyclerView
-        ProductAdapter adapter = createMockAdapter(true);
-        recyclerView.setAdapter(adapter);
-
-        // Возвращение созданного представления для отображения фрагмента
         return view;
     }
 
-    // Метод для создания адаптера с мок-данными в зависимости от выбранной категории
-    private ProductAdapter createMockAdapter(boolean isCategory) {
-        List<Product> productList;
-        if(isCategory) {
-            productList = getMockProducts();
-        } else {
-            productList = getMockCategories();
-        }
-
-        // Создание адаптера и установка слушателя кликов
-        ProductAdapter adapter = new ProductAdapter(getContext(), productList);
-        adapter.setOnItemClickListener(new ProductViewHolder.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                // Обработка клика на элементе списка
-                Product clickedProduct = productList.get(position);
-                boolean isCategory = clickedProduct.getIsCategory();
-                FragmentManager manager = requireActivity().getSupportFragmentManager();
-                if(isCategory) {
-                    // Переход к фрагменту с выбранной категорией
-                    SelectedCategoryFragment fragment = new SelectedCategoryFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("product", clickedProduct);
-                    fragment.setArguments(bundle);
-                    manager.beginTransaction().replace(R.id.primary_frame, fragment).commit();
-                } else {
-                    // Переход к фрагменту с выбранным продуктом
-                    ProductFragment productFragment = new ProductFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("product", clickedProduct);
-                    productFragment.setArguments(bundle);
-                    manager.beginTransaction().replace(R.id.primary_frame, productFragment).commit();
-                }
-            }
-        });
-        return adapter;
-    }
 }

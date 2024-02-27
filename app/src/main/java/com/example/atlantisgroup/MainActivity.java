@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         // Начало транзакции фрагмента для замены содержимого контейнера (FrameLayout)
         fragmentManager.beginTransaction()
                 .replace(R.id.login_framelayout, numberFragment)  // Замена фрагмента
-                .addToBackStack(null)  // Добавление в стек для возможности возврата
                 .commit();  // Применение транзакции
     }
 }

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.atlantisgroup.R;
 
 public class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -43,7 +44,6 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
      */
     public void bind(Product product, final OnItemClickListener listener) {
         // Установка значений из объекта Product в соответствующие элементы ViewHolder
-        imageView.setImageResource(product.getImageResource());
         textProduct.setText(product.getProductName());
         textModel.setText(product.getModel());
         textPrice.setText(product.getPrice());

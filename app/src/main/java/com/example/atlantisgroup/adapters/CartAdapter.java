@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.atlantisgroup.Instances.CartInstance;
+import com.example.atlantisgroup.Instances.ProductLocal;
 import com.example.atlantisgroup.R;
 
 import java.util.List;
@@ -15,10 +18,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
-    private List<Product> productList;
+    private List<ProductLocal> productList;
     private Context context;
 
-    public CartAdapter(List<Product> productList, Context context) {
+    public interface OnCartChangedListener {
+        void onCartChanged();
+    }
+
+    private OnCartChangedListener listener;
+
+    public void setOnCartChangedListener(OnCartChangedListener listener) {
+        this.listener = listener;
+    }
+
+
+    public CartAdapter(List<ProductLocal> productList, Context context) {
         this.productList = productList;
         this.context = context;
     }
@@ -33,12 +47,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        Product product = productList.get(position);
+        ProductLocal product = productList.get(position);
 
         // Установка данных в элементы макета
-        holder.imageView.setImageResource(product.getImageResource());
-        holder.textName.setText(product.getProductName());
-        holder.textModel.setText(product.getModel());
+        holder.textName.setText(product.getTitle());
+        holder.textModel.setText(product.getBrand_title());
 
         // Извлечение начального значения количества из TextView
         int initialQuantity = 1;
@@ -52,24 +65,33 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
         AtomicInteger currentQuantity = new AtomicInteger(initialQuantity);
 
         holder.textQuantity.setText(String.valueOf(currentQuantity.get()));
-        holder.textTotal.setText(String.format("$%.2f", calculateTotal(product, currentQuantity.get())));
+        holder.textTotal.setText(String.format("%.2f", calculateTotal(product, currentQuantity.get())));
 
         // Обработка нажатия на кнопку "plus"
         holder.btnPlus.setOnClickListener(v -> {
             currentQuantity.incrementAndGet();
             holder.textQuantity.setText(String.valueOf(currentQuantity.get()));
-            holder.textTotal.setText(String.format("$%.2f", calculateTotal(product, currentQuantity.get())));
+            holder.textTotal.setText(String.format("%.2f", calculateTotal(product, currentQuantity.get())));
         });
 
         // Обработка нажатия на кнопку "minus"
         holder.btnMinus.setOnClickListener(v -> {
+            CartInstance instance = CartInstance.getInstance();
             if (currentQuantity.get() > 1) {
                 currentQuantity.decrementAndGet();
                 holder.textQuantity.setText(String.valueOf(currentQuantity.get()));
-                holder.textTotal.setText(String.format("$%.2f", calculateTotal(product, currentQuantity.get())));
+                holder.textTotal.setText(String.format("%.2f", calculateTotal(product, currentQuantity.get())));
+            } else {
+                instance.removeProduct(product);
+                notifyItemRemoved(position);
+                if(listener != null) {
+                    listener.onCartChanged();
+                }
             }
         });
+        Glide.with(context).load(product.getImageUrl()).into(holder.imageView);
     }
+
 
     @Override
     public int getItemCount() {
@@ -77,8 +99,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     }
 
     // Дополнительный метод для расчета общей суммы товара на основе количества
-    private double calculateTotal(Product product, int quantity) {
-        return Float.parseFloat(product.getPrice().replace("$", "")) * quantity;
+    private double calculateTotal(ProductLocal product, int quantity) {
+        String price = product.getPrice();
+
+        // Удаляем все символы, кроме цифр и точки
+        String numericPrice = price.replaceAll("[^0-9]", "");
+
+        // Преобразуем строку в число с плавающей точкой
+        double numericValue = Double.parseDouble(numericPrice);
+
+        // Вычисляем общую стоимость
+        return numericValue * quantity;
     }
 
 

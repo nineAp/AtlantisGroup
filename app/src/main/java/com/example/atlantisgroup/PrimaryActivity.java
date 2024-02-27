@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -46,7 +48,9 @@ public class PrimaryActivity extends AppCompatActivity {
                     selectedFragment = new CatalogFragment();
                 }
                 if (item.getItemId() == R.id.chat) {
-                    selectedFragment = new ChatFragment();
+                    //selectedFragment = new ChatFragment();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tg://resolve?domain=Atlasiandev_bot"));
+                    startActivity(intent);
                 }
                 if (item.getItemId() == R.id.profile) {
                     selectedFragment = new ProfileFragment();
@@ -55,7 +59,7 @@ public class PrimaryActivity extends AppCompatActivity {
                 // Замена текущего фрагмента выбранным фрагментом
                 if (selectedFragment != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.primary_frame, selectedFragment);
+                    transaction.replace(R.id.primary_frame, selectedFragment).addToBackStack(null);
                     transaction.commit();
                 }
 

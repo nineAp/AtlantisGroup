@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.035" />
 
     <TextView
-        android:id="@+id/order_sum"
+        android:id="@+id/order_sum_frag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
@@ -68,6 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/order_sum"
+        app:layout_constraintTop_toBottomOf="@+id/order_sum_frag"
         app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

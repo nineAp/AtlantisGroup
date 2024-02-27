@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Чтобы не потерять товары, добавьте из в избранное"
+        android:text="Чтобы не потерять товары, добавьте их в избранное"
         android:textColor="@android:color/white" />
 
     <LinearLayout

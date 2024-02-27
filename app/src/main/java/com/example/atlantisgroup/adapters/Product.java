@@ -1,5 +1,7 @@
 package com.example.atlantisgroup.adapters;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -8,7 +10,8 @@ import java.io.Serializable;
  */
 public class Product implements Serializable {
 
-    private int imageResource;  // Ресурс изображения товара или категории
+    private Integer id;
+    private String imageResource;  // Ресурс изображения товара или категории
     private String productName; // Название товара или категории
     private String model;        // Модель товара (для товара) или пустая строка (для категории)
     private String price;        // Цена товара (для товара) или информация о количестве товаров (для категории)
@@ -23,7 +26,8 @@ public class Product implements Serializable {
      * @param price         Цена товара (для товара) или информация о количестве товаров (для категории)
      * @param isCategory    Флаг, указывающий, является ли объект категорией (true) или товаром (false)
      */
-    public Product(int imageResource, String productName, String model, String price, boolean isCategory) {
+    public Product(String imageResource, String productName, String model, String price, boolean isCategory, Integer id) {
+        this.id = id;
         this.imageResource = imageResource;
         this.productName = productName;
         this.model = model;
@@ -36,7 +40,7 @@ public class Product implements Serializable {
      *
      * @return Ресурс изображения
      */
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
@@ -75,4 +79,6 @@ public class Product implements Serializable {
     public boolean getIsCategory() {
         return isCategory;
     }
+
+    public Integer getId() { return id; }
 }
