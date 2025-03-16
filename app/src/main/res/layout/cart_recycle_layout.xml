@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Изображение слева -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/product_mock"
+        android:scaleType="centerCrop"
+        android:layout_alignParentStart="true"/>
+
+    <!-- Прямоугольник с серым border справа от изображения -->
+    <RelativeLayout
+        android:id="@+id/rightContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/gray_border">
+
+        <!-- Название и модель сверху вниз -->
+        <LinearLayout
+            android:id="@+id/textContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Название товара"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/textModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Модель товара"
+                android:textSize="14sp"
+                android:textColor="#555555"/>
+        </LinearLayout>
+
+        <!-- Кнопки + - и значение -->
+        <LinearLayout
+            android:id="@+id/quantityContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textContainer"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPlus"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/round_button"
+                android:text="+"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/btnMinus"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/round_button"
+                android:text="-"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:text="$50.00"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Общая сумма справа от rightContainer -->
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<!-- edittext_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- Background color -->
+    <stroke
+        android:color="#004A74"
+        android:width="1dp"
+        />
+    <corners android:radius="50px" />
+</shape>

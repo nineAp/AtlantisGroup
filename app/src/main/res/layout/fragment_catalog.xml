@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center|center_horizontal"
+    android:elevation="8dp"
+    tools:context=".CatalogFragment">
+
+
+    <ImageView
+        android:id="@+id/cart"
+        android:layout_width="42dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="28dp"
+        android:src="@drawable/cart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/sort"
+        android:layout_width="75dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/sort"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cart" />
+
+    <EditText
+        android:id="@+id/searchET"
+        android:layout_width="274dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingLeft="150px"
+        app:layout_constraintBottom_toTopOf="@+id/img_banner_catalog"
+        app:layout_constraintEnd_toStartOf="@+id/sort"
+        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="29dp"
+        android:layout_height="32dp"
+        android:src="@drawable/search"
+        app:layout_constraintBottom_toBottomOf="@+id/searchET"
+        app:layout_constraintEnd_toEndOf="@+id/searchET"
+        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintStart_toStartOf="@+id/searchET"
+        app:layout_constraintTop_toTopOf="@+id/searchET"
+        app:layout_constraintVertical_bias="0.416" />
+
+    <ImageView
+        android:id="@+id/img_banner_catalog"
+        android:layout_width="385dp"
+        android:layout_height="227dp"
+        android:src="@drawable/banner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/banner" />
+
+    <Button
+        android:id="@+id/catalog_button"
+        android:layout_width="450px"
+        android:layout_height="150px"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/montserrat_medium"
+        android:padding="5dp"
+        android:text="Каталог Товаров"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_banner_catalog"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <Button
+        android:id="@+id/category_button"
+        android:layout_width="450px"
+        android:layout_height="150px"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/button_background_blue"
+        android:fontFamily="@font/montserrat_medium"
+        android:padding="5dp"
+        android:text="Подборки"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_banner_catalog"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/catalog_rv"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
